@@ -1,0 +1,6 @@
+{
+  "name": "Javid Telecom Cherpora",
+  "description": "Your One-Stop Digital, Mobile & Online Service Centre at Mean Somu Stand, Cherpora, Shangus, Anantnag, Jammu & Kashmir.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
