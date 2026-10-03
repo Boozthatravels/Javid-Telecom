@@ -12,7 +12,7 @@ const STORAGE_KEYS = {
   ORDERS: 'jt_cherpora_orders_v1',
   BOOKINGS: 'jt_cherpora_bookings_v1',
   ENQUIRIES: 'jt_cherpora_enquiries_v1',
-  SETTINGS: 'jt_cherpora_settings_v2',
+  SETTINGS: 'jt_cherpora_settings_v3',
   CART: 'jt_cherpora_cart_v1',
 };
 
@@ -136,18 +136,13 @@ export const dataStore = {
 export function buildWhatsAppLink(
   whatsappNumber: string,
   message: string
-): { url: string | null; isPlaceholder: boolean } {
+): { url: string; isPlaceholder: boolean } {
   const cleaned = whatsappNumber.trim();
-  if (
-    !cleaned ||
-    cleaned === 'WHATSAPP_NUMBER_HERE' ||
-    cleaned.includes('NUMBER_HERE')
-  ) {
-    return { url: null, isPlaceholder: true };
-  }
-  const digits = cleaned.replace(/[^\d]/g, '');
-  if (digits.length < 10) {
-    return { url: null, isPlaceholder: true };
+  let digits = cleaned.replace(/[^\d]/g, '');
+  if (!digits || digits.length < 10) {
+    digits = '917780869615';
+  } else if (digits.length === 10) {
+    digits = `91${digits}`;
   }
   const encoded = encodeURIComponent(message);
   return {

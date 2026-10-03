@@ -229,19 +229,19 @@ export default function App() {
     return newOrder;
   };
 
-  // WhatsApp Action Handler (Respects WHATSAPP_NUMBER_HERE placeholder gracefully)
+  // WhatsApp Action Handler (Active with +91 7780869615)
   const handleWhatsAppAction = (message: string) => {
-    const { url, isPlaceholder } = buildWhatsAppLink(
-      settings.whatsappNumber,
+    const { url } = buildWhatsAppLink(
+      settings.whatsappNumber || '917780869615',
       message
     );
-    if (isPlaceholder || !url) {
-      showToast(
-        `WhatsApp number is currently set to placeholder (${settings.whatsappNumber}). Configure the live number in Admin Settings to launch direct WhatsApp chat.`
-      );
-      return;
-    }
-    window.location.href = url;
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.target = '_blank';
+    anchor.rel = 'noopener noreferrer';
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
   };
 
   // Prefill Service Booking & Smooth Scroll
@@ -402,10 +402,11 @@ export default function App() {
         {/* Zone 3: 2 primary actions */}
         <div className="flex items-center gap-2.5">
           <a
-            href="#visit-store"
-            className="hidden sm:inline-flex items-center px-3.5 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 border border-slate-300 rounded-lg transition-colors whitespace-nowrap shrink-0"
+            href="tel:+917780869615"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-800 hover:text-blue-700 border border-slate-300 rounded-lg transition-colors whitespace-nowrap shrink-0 font-mono-tabular"
           >
-            Visit Our Shop
+            <Phone className="w-3.5 h-3.5 text-blue-700" />
+            7780869615
           </a>
           <button
             type="button"
@@ -437,46 +438,86 @@ export default function App() {
         {/* =====================================================================
             2. HERO SECTION (16:9 Storefront Showcase + Tagline + Location + CTAs)
             ===================================================================== */}
-        <section className="relative bg-slate-900 text-white overflow-hidden border-b border-slate-800">
+        <section className="relative bg-gradient-to-br from-sky-50 via-white to-indigo-50 text-slate-900 overflow-hidden border-b border-blue-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-              {/* Left Column: Brand Lockup, Headline, Intro & Action Buttons */}
-              <div className="lg:col-span-7 space-y-6">
-                <div className="flex items-center gap-3">
+              {/* Left Column: Brand Lockup, 3D Display Headline, Intro & Action Buttons */}
+              <div className="lg:col-span-7 space-y-6 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-sky-50/90 to-indigo-50/80 border-2 border-blue-200 shadow-[0_20px_50px_rgba(37,99,235,0.12)]">
+                <div className="flex items-center gap-3 bg-gradient-to-r from-blue-50 via-cyan-50 to-purple-50 border border-blue-200 px-3.5 py-2 rounded-2xl w-fit">
                   <BrandLogo className="w-11 h-11 shrink-0" />
-                  <div className="text-xs text-blue-300 font-medium">
+                  <div className="text-xs font-bold bg-gradient-to-r from-blue-700 via-indigo-700 to-emerald-700 bg-clip-text text-transparent">
                     <span>{settings.tagline}</span>
-                    <span className="mx-2 text-slate-500">·</span>
-                    <span>Mean Somu Stand, Cherpora, Shangus, Anantnag, J&K</span>
+                    <span className="mx-2 text-blue-400">·</span>
+                    <span>Call / WhatsApp: +91 7780869615</span>
                   </div>
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12]">
-                  Your One-Stop Shop for Mobile, Electronics, Printing, Repairing & Online Services
-                </h1>
+                <div className="space-y-3">
+                  <div className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase leading-[1.05] bg-gradient-to-r from-blue-700 via-indigo-600 to-fuchsia-600 bg-clip-text text-transparent drop-shadow-[0_3px_0_rgba(191,219,254,1)] filter">
+                    JAVID TELECOM CHERPORA
+                  </div>
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-blue-900 to-teal-800 bg-clip-text text-transparent leading-snug">
+                    Your One-Stop Shop for Mobile, Electronics, Printing, Repairing & Online Services
+                  </h1>
+                </div>
 
-                <p className="text-base text-slate-300 leading-relaxed max-w-2xl">
+                <p className="text-base text-slate-700 leading-relaxed max-w-2xl">
                   Javid Telecom Cherpora provides a wide range of mobile, electronics, repairing, printing, documentation and digital services under one roof. Customers can purchase products, repair devices, use online services and access printing and documentation facilities conveniently.
                 </p>
 
+                {/* Highlighted Point: Payment Transactions / Cash Facility */}
+                <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 border border-emerald-300 text-emerald-950 text-sm font-bold shadow-xs">
+                  <CreditCard className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <span>
+                    • Payment transactions / Cash facility is also available
+                  </span>
+                </div>
+
+                {/* Direct Call & WhatsApp Hotline Strip */}
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-mono-tabular bg-gradient-to-r from-blue-50 via-indigo-50 to-emerald-50 border border-blue-200 px-4 py-3.5 rounded-2xl shadow-xs">
+                  <a
+                    href="tel:+917780869615"
+                    className="inline-flex items-center gap-2 font-bold text-blue-800 hover:text-blue-600 transition-colors"
+                  >
+                    <Phone className="w-4 h-4 text-blue-600" />
+                    <span>Call Shop: +91 7780869615</span>
+                  </a>
+                  <span className="text-slate-300 hidden sm:inline">|</span>
+                  <a
+                    href="https://wa.me/917780869615?text=Hello%20Javid%20Telecom%20Cherpora%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 font-bold text-emerald-700 hover:text-emerald-600 transition-colors"
+                  >
+                    <MessageCircle className="w-4 h-4 text-emerald-600" />
+                    <span>WhatsApp: 7780869615 (Active)</span>
+                  </a>
+                </div>
+
                 {/* Primary Hero CTA & Secondary Action Links */}
-                <div className="flex flex-wrap items-center gap-3 pt-2">
+                <div className="flex flex-wrap items-center gap-3 pt-1">
                   <a
                     href="#shop"
-                    className="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition-colors inline-flex items-center gap-2 whitespace-nowrap"
+                    className="px-5 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-bold rounded-xl shadow-md shadow-cyan-500/20 transition-all inline-flex items-center gap-2 whitespace-nowrap"
                   >
                     <ShoppingBag className="w-4 h-4" />
                     Shop Now
                   </a>
                   <a
                     href="#repairs"
-                    className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-100 text-sm font-medium rounded-xl border border-slate-700 transition-colors whitespace-nowrap"
+                    className="px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl shadow-md shadow-purple-500/20 transition-all whitespace-nowrap"
                   >
                     Our Services
                   </a>
                   <a
+                    href="#visit-store"
+                    className="px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white text-sm font-bold rounded-xl shadow-md shadow-amber-500/20 transition-all whitespace-nowrap"
+                  >
+                    Visit Our Shop
+                  </a>
+                  <a
                     href="#contact"
-                    className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-100 text-sm font-medium rounded-xl border border-slate-700 transition-colors whitespace-nowrap"
+                    className="px-4 py-3 bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white text-sm font-semibold rounded-xl shadow-md shadow-rose-500/20 transition-all whitespace-nowrap"
                   >
                     Contact Us
                   </a>
@@ -484,45 +525,42 @@ export default function App() {
                     href={settings.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-100 text-sm font-medium rounded-xl border border-slate-700 transition-colors inline-flex items-center gap-1.5 whitespace-nowrap"
+                    className="px-4 py-3 bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-500 hover:to-blue-600 text-white text-sm font-semibold rounded-xl transition-all inline-flex items-center gap-1.5 whitespace-nowrap"
                   >
-                    <MapPin className="w-4 h-4 text-blue-400" />
+                    <MapPin className="w-4 h-4 text-amber-300" />
                     Get Directions
                   </a>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleWhatsAppAction(
-                        'Hello Javid Telecom Cherpora, I would like to enquire about your products and digital services.'
-                      )
-                    }
-                    className="px-4 py-3 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-sm font-medium rounded-xl transition-colors inline-flex items-center gap-1.5 whitespace-nowrap"
+                  <a
+                    href="https://wa.me/917780869615?text=Hello%20Javid%20Telecom%20Cherpora%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%20and%20digital%20services."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-sm font-bold rounded-xl shadow-md shadow-emerald-500/25 transition-all inline-flex items-center gap-1.5 whitespace-nowrap"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    WhatsApp Us
-                  </button>
+                    WhatsApp Us (7780869615)
+                  </a>
                 </div>
 
                 {/* Unboxed Department Visual Index (Smartphone, Earbuds, Accessories, Laptop, Printer, Photocopy, Lamination, Online, Payments) */}
-                <div className="pt-4 border-t border-slate-800/90 text-xs text-slate-400 flex flex-wrap items-center gap-y-1.5">
-                  <span className="text-slate-200 font-semibold mr-2">Available In-Store:</span>
-                  <span>Smartphones</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>Earbuds & Audio</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>Mobile Accessories</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>Laptop Service</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>Laser Printing</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>Photocopy / Xerox</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>Thermal Lamination</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>Online Form Assistance</span>
-                  <span className="mx-2 text-slate-600">·</span>
-                  <span>ATM & Digital Payments</span>
+                <div className="pt-4 border-t border-blue-200/80 text-xs flex flex-wrap items-center gap-y-1.5">
+                  <span className="text-slate-900 font-bold mr-2">Available In-Store:</span>
+                  <span className="text-blue-700 font-semibold">Smartphones</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-pink-700 font-semibold">Earbuds & Audio</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-emerald-700 font-semibold">Mobile Accessories</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-amber-700 font-semibold">Laptop Service</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-sky-700 font-semibold">Laser Printing</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-purple-700 font-semibold">Photocopy / Xerox</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-teal-700 font-semibold">Thermal Lamination</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-rose-700 font-semibold">Online Form Assistance</span>
+                  <span className="mx-2 text-slate-400">·</span>
+                  <span className="text-indigo-700 font-semibold">Payment Transactions / Cash Facility</span>
                 </div>
               </div>
 
@@ -550,7 +588,7 @@ export default function App() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent flex flex-col justify-end p-5">
                     <div className="text-xs text-blue-300 font-medium">
-                      Local Multi-Service Digital & Electronics Centre
+                      Local Multi-Service Digital & Electronics Centre · Call: 7780869615
                     </div>
                     <div className="text-sm font-semibold text-white mt-0.5">
                       Mean Somu Stand, Cherpora, Shangus, Anantnag, J&K
@@ -1451,15 +1489,23 @@ export default function App() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
                   <div>
                     <div className="text-slate-400 font-medium">Phone</div>
-                    <div className="font-mono-tabular font-semibold text-slate-900 mt-0.5">
-                      {settings.phoneNumber}
-                    </div>
+                    <a
+                      href="tel:+917780869615"
+                      className="font-mono-tabular font-bold text-blue-700 hover:underline mt-0.5 block text-sm"
+                    >
+                      +91 7780869615
+                    </a>
                   </div>
                   <div>
-                    <div className="text-slate-400 font-medium">WhatsApp</div>
-                    <div className="font-mono-tabular font-semibold text-slate-900 mt-0.5">
-                      {settings.whatsappNumber}
-                    </div>
+                    <div className="text-slate-400 font-medium">WhatsApp (Active)</div>
+                    <a
+                      href="https://wa.me/917780869615?text=Hello%20Javid%20Telecom%20Cherpora"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono-tabular font-bold text-emerald-700 hover:underline mt-0.5 block text-sm"
+                    >
+                      +91 7780869615
+                    </a>
                   </div>
                   <div>
                     <div className="text-slate-400 font-medium">Email</div>
@@ -1486,34 +1532,22 @@ export default function App() {
                     <Navigation className="w-3.5 h-3.5" />
                     Get Directions
                   </a>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleWhatsAppAction(
-                        'Hello Javid Telecom Cherpora, I would like to connect with your shop.'
-                      )
-                    }
+                  <a
+                    href="https://wa.me/917780869615?text=Hello%20Javid%20Telecom%20Cherpora%2C%20I%20would%20like%20to%20connect%20with%20your%20shop."
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl inline-flex items-center gap-1.5"
                   >
                     <MessageCircle className="w-3.5 h-3.5" />
-                    WhatsApp Button
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (settings.phoneNumber.includes('PHONE_NUMBER_HERE')) {
-                        showToast(
-                          'Phone number is currently set to PHONE_NUMBER_HERE placeholder. Update it in Admin Settings to enable direct calling.'
-                        );
-                      } else {
-                        window.location.href = `tel:${settings.phoneNumber}`;
-                      }
-                    }}
-                    className="px-4 py-2.5 border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold rounded-xl inline-flex items-center gap-1.5"
+                    WhatsApp: 7780869615
+                  </a>
+                  <a
+                    href="tel:+917780869615"
+                    className="px-4 py-2.5 border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold rounded-xl inline-flex items-center gap-1.5 font-mono-tabular"
                   >
-                    <Phone className="w-3.5 h-3.5" />
-                    Call Shop
-                  </button>
+                    <Phone className="w-3.5 h-3.5 text-blue-700" />
+                    Call: 7780869615
+                  </a>
                 </div>
               </div>
 
@@ -1643,6 +1677,22 @@ export default function App() {
               <p className="text-xs text-slate-400 leading-relaxed">
                 Address: Mean Somu Stand, Cherpora, Shangus, Anantnag, J&K
               </p>
+              <div className="pt-1 space-y-1 text-xs font-mono-tabular">
+                <a
+                  href="tel:+917780869615"
+                  className="block text-blue-400 hover:text-blue-300 font-semibold"
+                >
+                  Phone: +91 7780869615
+                </a>
+                <a
+                  href="https://wa.me/917780869615?text=Hello%20Javid%20Telecom%20Cherpora"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-emerald-400 hover:text-emerald-300 font-semibold"
+                >
+                  WhatsApp: +91 7780869615
+                </a>
+              </div>
             </div>
 
             {/* Column 2: Quick Links */}
