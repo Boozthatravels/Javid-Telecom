@@ -4,8 +4,13 @@ import smartphoneImg from '../assets/images/product_smartphone_5g_1791045519566.
 import earbudsImg from '../assets/images/product_wireless_earbuds_1791045532780.jpg';
 import powerbankImg from '../assets/images/product_fast_powerbank_1791045543165.jpg';
 import smartwatchImg from '../assets/images/product_smartwatch_amoled_1791045553779.jpg';
+import chargerImg from '../assets/images/product_charger_33w_fast_1791126582704.jpg';
+import speakerImg from '../assets/images/product_bluetooth_speaker_10w_1791126596881.jpg';
+import coversGlassImg from '../assets/images/product_mobile_covers_glass_1791126614854.jpg';
+import shopOwnerCounterImg from '../assets/images/javid_telecom_shop_owner_counter_1791127097604.jpg';
 
 export const HERO_IMAGE = heroShopImg;
+export const SHOP_OWNER_IMAGE = shopOwnerCounterImg;
 
 export const INITIAL_SETTINGS: BusinessSettings = {
   businessName: 'Javid Telecom Cherpora',
@@ -15,7 +20,7 @@ export const INITIAL_SETTINGS: BusinessSettings = {
   fullAddress: 'Mean Somu Stand, Cherpora, Shangus, Anantnag, Jammu & Kashmir, India',
   phoneNumber: '+91 7780869615',
   whatsappNumber: '917780869615',
-  email: 'EMAIL_HERE',
+  email: 'javaidtelecom068@gmail.com',
   businessHours: 'BUSINESS_HOURS_HERE',
   googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Mean+Somu+Stand+Cherpora+Shangus+Anantnag+Jammu+and+Kashmir',
   paymentGatewayConfigured: Boolean(import.meta.env.VITE_PAYMENT_MERCHANT_ID && import.meta.env.VITE_PAYMENT_PUBLIC_KEY),
@@ -48,6 +53,20 @@ export const INITIAL_PRODUCTS: Product[] = [
     image: smartphoneImg,
     iconKey: 'smartphone',
     specs: ['5G Dual SIM', '5000mAh Battery', '1 Year Brand Warranty'],
+  },
+  {
+    id: 'prod-5',
+    name: '33W SuperVOOC / PD Wall Charger Adapter',
+    category: 'Chargers & Cables',
+    subType: 'Chargers & Mobile Adapters',
+    description: 'High-speed wall charging adapter with surge and overheat protection for all smartphones.',
+    price: 549,
+    priceNote: 'Editable sample price',
+    stock: 25,
+    featured: true,
+    image: chargerImg,
+    iconKey: 'zap',
+    specs: ['33W Fast Output', 'BIS Certified Safety', 'Universal Compatibility'],
   },
   {
     id: 'prod-2',
@@ -92,19 +111,6 @@ export const INITIAL_PRODUCTS: Product[] = [
     specs: ['Bluetooth Calling', 'IP68 Water Resistant', '7-Day Battery'],
   },
   {
-    id: 'prod-5',
-    name: '33W SuperVOOC / PD Wall Charger Adapter',
-    category: 'Chargers & Cables',
-    subType: 'Chargers & Mobile Adapters',
-    description: 'High-speed wall charging adapter with surge and overheat protection for all smartphones.',
-    price: 549,
-    priceNote: 'Editable sample price',
-    stock: 25,
-    featured: true,
-    iconKey: 'zap',
-    specs: ['33W Fast Output', 'BIS Certified Safety', 'Universal Compatibility'],
-  },
-  {
     id: 'prod-6',
     name: 'Braided Type-C to Type-C / USB Data Cable (1.2m)',
     category: 'Chargers & Cables',
@@ -114,6 +120,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     priceNote: 'Editable sample price',
     stock: 45,
     featured: false,
+    image: chargerImg,
     iconKey: 'cable',
     specs: ['65W Max Current', 'Reinforced Connectors', '1.2 Meter Length'],
   },
@@ -126,7 +133,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 249,
     priceNote: 'Editable sample price',
     stock: 60,
-    featured: false,
+    featured: true,
+    image: coversGlassImg,
     iconKey: 'shield',
     specs: ['Drop Tested', 'Anti-Fingerprint Matte', 'All Models Available'],
   },
@@ -140,6 +148,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     priceNote: 'Editable sample price',
     stock: 80,
     featured: false,
+    image: coversGlassImg,
     iconKey: 'layers',
     specs: ['9H Hardness', 'Oleophobic Coating', 'Free Shop Installation'],
   },
@@ -153,6 +162,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     priceNote: 'Editable sample price',
     stock: 12,
     featured: true,
+    image: speakerImg,
     iconKey: 'speaker',
     specs: ['10W Dual Driver', 'TWS Pairing', '8-Hour Playtime'],
   },

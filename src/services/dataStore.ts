@@ -8,11 +8,11 @@ import {
 import { INITIAL_PRODUCTS, INITIAL_SETTINGS } from '../data/initialData';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'jt_cherpora_products_v1',
+  PRODUCTS: 'jt_cherpora_products_v2',
   ORDERS: 'jt_cherpora_orders_v1',
   BOOKINGS: 'jt_cherpora_bookings_v1',
   ENQUIRIES: 'jt_cherpora_enquiries_v1',
-  SETTINGS: 'jt_cherpora_settings_v3',
+  SETTINGS: 'jt_cherpora_settings_v4',
   CART: 'jt_cherpora_cart_v1',
 };
 

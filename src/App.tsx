@@ -32,6 +32,7 @@ import {
 } from './types';
 import {
   HERO_IMAGE,
+  SHOP_OWNER_IMAGE,
   PRODUCT_CATEGORIES,
   ALL_SERVICES,
   TESTIMONIALS,
@@ -119,6 +120,31 @@ export default function App() {
   const [legalModal, setLegalModal] = useState<'privacy' | 'terms' | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [heroImgError, setHeroImgError] = useState(false);
+  const [frontLeftImg, setFrontLeftImg] = useState<string>(() => {
+    try {
+      return localStorage.getItem('jt_cherpora_front_left_img') || SHOP_OWNER_IMAGE;
+    } catch {
+      return SHOP_OWNER_IMAGE;
+    }
+  });
+
+  const handleFrontLeftPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setFrontLeftImg(reader.result);
+        try {
+          localStorage.setItem('jt_cherpora_front_left_img', reader.result);
+        } catch {
+          // Ignore storage quota
+        }
+        showToast('Front-left shop photo updated!');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   // Search & Product Filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -441,25 +467,53 @@ export default function App() {
         <section className="relative bg-gradient-to-br from-sky-50 via-white to-indigo-50 text-slate-900 overflow-hidden border-b border-blue-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-              {/* Left Column: Brand Lockup, 3D Display Headline, Intro & Action Buttons */}
+              {/* Left Column: Front-Left Shop Photo + Brand Lockup, 3D Display Headline, Intro & Action Buttons */}
               <div className="lg:col-span-7 space-y-6 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-sky-50/90 to-indigo-50/80 border-2 border-blue-200 shadow-[0_20px_50px_rgba(37,99,235,0.12)]">
-                <div className="flex items-center gap-3 bg-gradient-to-r from-blue-50 via-cyan-50 to-purple-50 border border-blue-200 px-3.5 py-2 rounded-2xl w-fit">
-                  <BrandLogo className="w-11 h-11 shrink-0" />
-                  <div className="text-xs font-bold bg-gradient-to-r from-blue-700 via-indigo-700 to-emerald-700 bg-clip-text text-transparent">
-                    <span>{settings.tagline}</span>
-                    <span className="mx-2 text-blue-400">·</span>
-                    <span>Call / WhatsApp: +91 7780869615</span>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                  {/* Front Left Side Shop Photo Showcase */}
+                  <div className="relative group shrink-0">
+                    <div className="w-36 h-28 sm:w-44 sm:h-36 rounded-2xl overflow-hidden border-2 border-blue-500 shadow-lg bg-slate-100">
+                      <img
+                        src={frontLeftImg}
+                        alt="Javid Telecom Cherpora — Shop Owner & Counter"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <label
+                      htmlFor="front-left-photo-upload"
+                      className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 hover:text-blue-900 cursor-pointer"
+                    >
+                      <span>Change Photo</span>
+                      <input
+                        id="front-left-photo-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFrontLeftPhotoUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  <div className="space-y-2.5 flex-1">
+                    <div className="flex items-center gap-2.5 bg-gradient-to-r from-blue-50 via-cyan-50 to-purple-50 border border-blue-200 px-3 py-1.5 rounded-2xl w-fit">
+                      <BrandLogo className="w-8 h-8 shrink-0" />
+                      <div className="text-xs font-bold bg-gradient-to-r from-blue-700 via-indigo-700 to-emerald-700 bg-clip-text text-transparent">
+                        <span>{settings.tagline}</span>
+                        <span className="mx-1.5 text-blue-400">·</span>
+                        <span>Call / WhatsApp: +91 7780869615</span>
+                      </div>
+                    </div>
+
+                    <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight uppercase leading-[1.05] bg-gradient-to-r from-blue-700 via-indigo-600 to-fuchsia-600 bg-clip-text text-transparent drop-shadow-[0_3px_0_rgba(191,219,254,1)] filter">
+                      JAVID TELECOM CHERPORA
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight uppercase leading-[1.05] bg-gradient-to-r from-blue-700 via-indigo-600 to-fuchsia-600 bg-clip-text text-transparent drop-shadow-[0_3px_0_rgba(191,219,254,1)] filter">
-                    JAVID TELECOM CHERPORA
-                  </div>
-                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-blue-900 to-teal-800 bg-clip-text text-transparent leading-snug">
-                    Your One-Stop Shop for Mobile, Electronics, Printing, Repairing & Online Services
-                  </h1>
-                </div>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-blue-900 to-teal-800 bg-clip-text text-transparent leading-snug">
+                  Your One-Stop Shop for Mobile, Electronics, Printing, Repairing & Online Services
+                </h1>
 
                 <p className="text-base text-slate-700 leading-relaxed max-w-2xl">
                   Javid Telecom Cherpora provides a wide range of mobile, electronics, repairing, printing, documentation and digital services under one roof. Customers can purchase products, repair devices, use online services and access printing and documentation facilities conveniently.
@@ -473,14 +527,14 @@ export default function App() {
                   </span>
                 </div>
 
-                {/* Direct Call & WhatsApp Hotline Strip */}
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-mono-tabular bg-gradient-to-r from-blue-50 via-indigo-50 to-emerald-50 border border-blue-200 px-4 py-3.5 rounded-2xl shadow-xs">
+                {/* Direct Call, WhatsApp & Gmail Hotline Strip */}
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-mono-tabular bg-gradient-to-r from-blue-50 via-indigo-50 to-emerald-50 border border-blue-200 px-4 py-3.5 rounded-2xl shadow-xs">
                   <a
                     href="tel:+917780869615"
                     className="inline-flex items-center gap-2 font-bold text-blue-800 hover:text-blue-600 transition-colors"
                   >
                     <Phone className="w-4 h-4 text-blue-600" />
-                    <span>Call Shop: +91 7780869615</span>
+                    <span>+91 7780869615</span>
                   </a>
                   <span className="text-slate-300 hidden sm:inline">|</span>
                   <a
@@ -490,7 +544,15 @@ export default function App() {
                     className="inline-flex items-center gap-2 font-bold text-emerald-700 hover:text-emerald-600 transition-colors"
                   >
                     <MessageCircle className="w-4 h-4 text-emerald-600" />
-                    <span>WhatsApp: 7780869615 (Active)</span>
+                    <span>WhatsApp: 7780869615</span>
+                  </a>
+                  <span className="text-slate-300 hidden md:inline">|</span>
+                  <a
+                    href="mailto:javaidtelecom068@gmail.com"
+                    className="inline-flex items-center gap-2 font-bold text-indigo-700 hover:text-indigo-600 transition-colors"
+                  >
+                    <Mail className="w-4 h-4 text-indigo-600" />
+                    <span>javaidtelecom068@gmail.com</span>
                   </a>
                 </div>
 
@@ -1508,10 +1570,15 @@ export default function App() {
                     </a>
                   </div>
                   <div>
-                    <div className="text-slate-400 font-medium">Email</div>
-                    <div className="font-mono-tabular font-semibold text-slate-900 mt-0.5">
-                      {settings.email}
-                    </div>
+                    <div className="text-slate-400 font-medium">Email / Gmail</div>
+                    <a
+                      href={`mailto:${settings.email || 'javaidtelecom068@gmail.com'}`}
+                      className="font-mono-tabular font-bold text-indigo-700 hover:underline mt-0.5 block text-sm break-all"
+                    >
+                      {settings.email && settings.email !== 'EMAIL_HERE'
+                        ? settings.email
+                        : 'javaidtelecom068@gmail.com'}
+                    </a>
                   </div>
                   <div>
                     <div className="text-slate-400 font-medium">Business Hours</div>
@@ -1691,6 +1758,12 @@ export default function App() {
                   className="block text-emerald-400 hover:text-emerald-300 font-semibold"
                 >
                   WhatsApp: +91 7780869615
+                </a>
+                <a
+                  href="mailto:javaidtelecom068@gmail.com"
+                  className="block text-indigo-400 hover:text-indigo-300 font-semibold"
+                >
+                  Gmail: javaidtelecom068@gmail.com
                 </a>
               </div>
             </div>
